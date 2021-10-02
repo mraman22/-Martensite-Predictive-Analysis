@@ -1,0 +1,44 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets, linear_model, metrics
+
+import pandas as pd
+df = pd.read_csv(r'C:\Users\am895\Downloads\newdata1.csv')
+df.head()
+
+X = df.drop(['Ms(k)'], axis = 1).values
+y = df['Ms(k)'].values
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
+
+# create linear regression object
+reg = linear_model.LinearRegression()
+  
+# train the model using the training sets
+reg.fit(X_train, y_train)
+
+y_pred = reg.predict(X_test)
+
+from sklearn.metrics import r2_score
+r2_score(y_test, y_pred)
+
+print('Coefficients: ', reg.coef_)
+  
+# variance score: 1 means perfect prediction
+print('Variance score: {}'.format(reg.score(X_test, y_test)))
+  
+# plot for residual error
+  
+## setting plot style
+plt.style.use('fivethirtyeight')
+
+
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+relation = df[['C', 'Mn', 'Si', 'Cr', 'Ni', 'Mo', 'V', 'Co', 'Al', 'W', 'Cu', 'Nb', 'Ti', 'B', 'N', 'Ms(k)']].dropna()
+
+relation.corr(method="pearson")
+
+
+                                          
